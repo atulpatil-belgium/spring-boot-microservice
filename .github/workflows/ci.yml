@@ -3,6 +3,7 @@ name: CI - Build user-service
 on:
   push:
     branches: [ "main" ]
+
 #    paths:
 #      - 'user-service/**'
 #      - 'order-service/**'
