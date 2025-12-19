@@ -32,6 +32,9 @@ jobs:
         working-directory: ${{ matrix.service }}
         run: mvn clean package -DskipTests
 
+      - name: Debug repo owner
+        run: echo "Repo owner is ${{ github.repository_owner }}"      
+
       - name: Login to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
