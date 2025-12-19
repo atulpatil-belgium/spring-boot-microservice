@@ -1,4 +1,4 @@
-name: CI - Build user-service
+name: CI - Build all Services
 
 on:
   push:
