@@ -44,3 +44,10 @@ jobs:
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/${{ matrix.service }}:${{ github.sha }}
           docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
+
+      - name: List files in service directory
+        working-directory: ${{ matrix.service }}
+        run: ls -la    
+
+      - name: List local docker images after build
+        run: docker images    
