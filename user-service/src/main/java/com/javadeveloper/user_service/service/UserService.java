@@ -48,7 +48,7 @@ public class UserService {
             new UsernamePasswordAuthenticationToken(users.getUserName(), users.getUserPassword())
         );
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(users.getUserName());
+            return jwtService.generateToken(users.getUserName(), users.getUserId());
         } else {
             throw new UsernameNotFoundException("Invalid user request!");
         }

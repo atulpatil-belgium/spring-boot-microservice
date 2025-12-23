@@ -1,4 +1,4 @@
-package com.javadeveloper.user_service.configuration;
+package com.javadeveloper.order_service.configuration;
 
 import java.io.IOException;
 
@@ -9,10 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.javadeveloper.user_service.service.JwtService;
-import com.javadeveloper.user_service.service.MyUserDetailsService;
+import com.javadeveloper.order_service.feign.userDetailsInterface;
+import com.javadeveloper.order_service.service.JwtService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,16 +19,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class JwtFilter  extends OncePerRequestFilter {
+public class JwtFilter {
 
-     @Autowired
+    @Autowired
     private JwtService jwtService;
 
     @Autowired
     ApplicationContext context;
 
     @Autowired
-    MyUserDetailsService userDetailsService;
+    userDetailsInterface userDetailsService;
 
   
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -44,7 +43,9 @@ public class JwtFilter  extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            
+            UserDetails userDetails = userDetailsService.getUserByUserName(username);
+            
             if (jwtService.validateToken(token, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(new WebAuthenticationDetailsSource()
@@ -55,5 +56,5 @@ public class JwtFilter  extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
 }
+

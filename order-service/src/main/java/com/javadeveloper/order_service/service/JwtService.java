@@ -1,14 +1,8 @@
-package com.javadeveloper.user_service.service;
+package com.javadeveloper.order_service.service;
 
-
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,33 +17,6 @@ import io.jsonwebtoken.security.Keys;
 public class JwtService {
 
     public static String SECRET = "";
-
-    public JwtService() {
-
-        try {
-            KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
-            SecretKey sk = keyGen.generateKey();
-            SECRET = Base64.getEncoder().encodeToString(sk.getEncoded());
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public String generateToken(String userName, Long userId) { // Use email as username
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", userId);
-        return createToken(claims, userName);
-    }
-
-    private String createToken(Map<String, Object> claims, String userName) {
-        return Jwts.builder()
-                .claim(userName, claims)
-                .subject(userName)
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 1000 * 1000))
-                .signWith(getSignKey())
-                .compact();
-    }
 
     private SecretKey getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);
