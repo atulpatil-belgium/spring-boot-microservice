@@ -49,6 +49,14 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
 		</dependency>
+
+		<dependency>
+    <groupId>org.sonarsource.sonarqube</groupId>
+    <artifactId>sonar-plugin-api</artifactId>
+    <version>9.3.0.51899</version>
+</dependency>
+
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
