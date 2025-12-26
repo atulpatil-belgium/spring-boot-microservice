@@ -79,11 +79,6 @@
     <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 
-<dependency>
-    <groupId>org.sonarsource.sonarqube</groupId>
-    <artifactId>sonar-plugin-api</artifactId>
-    <version>9.3.0.51899</version>
-</dependency>
 
 	</dependencies>
 	<dependencyManagement>
@@ -123,6 +118,11 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.10.0.2594</version>
 			</plugin>
 		</plugins>
 	</build>
