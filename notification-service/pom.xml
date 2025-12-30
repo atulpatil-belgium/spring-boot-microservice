@@ -30,6 +30,17 @@
 		<java.version>21</java.version>
 		<spring-cloud.version>2025.1.0</spring-cloud.version>
 	</properties>
+
+	<profiles>
+	<profile>
+		<id>skip-sonar</id>
+        <properties>
+            <sonar.skip>true</sonar.skip>
+        </properties>
+	</profile>
+</profiles>
+
+
 	<dependencies>
 		
 		<dependency>

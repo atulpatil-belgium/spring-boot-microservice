@@ -31,6 +31,17 @@
 		<spring-cloud.version>2025.1.0</spring-cloud.version>
 		<jjwt.version>0.13.0</jjwt.version>
 	</properties>
+
+	<profiles>
+	<profile>
+		<id>skip-sonar</id>
+        <properties>
+            <sonar.skip>true</sonar.skip>
+        </properties>
+	</profile>
+</profiles>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
