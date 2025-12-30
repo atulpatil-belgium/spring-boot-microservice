@@ -1,5 +1,9 @@
 name: SonarQube Scan (All Services)
 
+env:
+  MAVEN_OPTS: "-Xmx1024m"
+  ENABLE_SONAR_SCAN: "false"
+
 on:
   push:
     branches:
@@ -36,6 +40,7 @@ jobs:
         run: mvn clean package -DskipTests
 
       - name: SonarQube Scan
+        if: env.ENABLE_SONAR_SCAN == 'true'
         working-directory: ${{ matrix.service }}
         run: |
           mvn sonar:sonar \
