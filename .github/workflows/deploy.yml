@@ -1,35 +1,59 @@
-name: Build and Deploy
+name: Build and Deploy Docker Images to AWS ECR and Apply Terraform
 
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+      
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    # steps:
+    # - uses: actions/checkout@v3
+
+    # - uses: aws-actions/configure-aws-credentials@v3
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: eu-west-3
+
+    # - uses: aws-actions/amazon-ecr-login@v2
+
+    # - name: Build & Push Docker Images
+    #   run: |
+    #     for service in eureka-server order-service payment-service notification-service user-service
+    #     do
+    #       docker build -t $service ./$service
+    #       docker tag $service:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-3.amazonaws.com/$service:latest
+    #       docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-3.amazonaws.com/$service:latest
+    #     done
+
+    # - name: Terraform Apply
+    #   run: |
+    #     cd terraform
+    #     terraform init
+    #     terraform apply -auto-approve
+
+
+
+    ##DEMO PURPOSES ONLY - DO NOT USE IN PRODUCTION##
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - uses: aws-actions/configure-aws-credentials@v3
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: eu-west-3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
 
-    - uses: aws-actions/amazon-ecr-login@v2
+      - name: Terraform Init (no backend)
+        run: terraform init -backend=false
+        working-directory: terraform
 
-    - name: Build & Push Docker Images
-      run: |
-        for service in eureka-server order-service payment-service notification-service user-service
-        do
-          docker build -t $service ./$service
-          docker tag $service:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-3.amazonaws.com/$service:latest
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.eu-west-3.amazonaws.com/$service:latest
-        done
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: terraform
 
-    - name: Terraform Apply
-      run: |
-        cd terraform
-        terraform init
-        terraform apply -auto-approve
+      - name: Terraform Plan (no apply)
+        run: terraform plan -refresh=false
+        working-directory: terraform
