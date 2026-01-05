@@ -1,8 +1,11 @@
 spring:
   application:
     name: payment-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}  
   kafka:
     bootstrap-servers: localhost:9092
+    #bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:}
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -20,7 +23,8 @@ spring:
         spring.json.trusted.packages: "*"
         spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
         spring.deserializer.value.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
-
+    listener:
+      missing-topics-fatal: false
 
         
 server:
@@ -32,6 +36,7 @@ eureka:
     fetch-registry: true
     service-url: 
       defaultZone: http://localhost:8761/eureka/ 
+      #defaultZone: ${EUREKA_SERVER_URL}
 
 logging:
   level:

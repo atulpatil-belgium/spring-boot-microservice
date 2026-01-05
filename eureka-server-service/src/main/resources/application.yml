@@ -1,13 +1,18 @@
 server:
     port: 8761
 
+
 spring:
   application:
     name: eureka-server-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev} 
 
+    
 eureka:
   instance:
-    hostname: localhost
+    #hostname: localhost
+    prefer-ip-address: true
   client:
     fetch-registry: false
     register-with-eureka: false

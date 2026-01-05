@@ -1,17 +1,26 @@
 spring:
   application:
     name: user-service
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}   
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
+    #url: jdbc:postgresql://localhost:5432/postgres
+    #username: postgres
+    #password: postgres
+    url: ${DB_URL:}
+    username: ${DB_USERNAME:}
+    password: ${DB_PASSWORD:}
   jpa:
     hibernate:
-      ddl-auto: update
+      #ddl-auto: update
+      ddl-auto: none
     show-sql: true
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      mode: never      
   data:
     jpa:
       repositories:
@@ -26,7 +35,8 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url: 
-      defaultZone: http://localhost:8761/eureka/      
+      #defaultZone: http://localhost:8761/eureka/ 
+      defaultZone: ${EUREKA_SERVER_URL}
 
 
 management:
