@@ -55,5 +55,5 @@ jobs:
         working-directory: terraform
 
       - name: Terraform Plan (no apply)
-        run: terraform plan -refresh=false
+        run: terraform plan -refresh=false -var-file=terraform.tfvars
         working-directory: terraform
