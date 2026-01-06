@@ -59,3 +59,5 @@ jobs:
         working-directory: terraform
         env:
           AWS_EC2_METADATA_DISABLED: "true"
+          AWS_ACCESS_KEY_ID: dummy
+          AWS_SECRET_ACCESS_KEY: dummy  
